@@ -1,0 +1,64 @@
+<ons-page>
+    <ons-toolbar>
+        <div class="center"><font size=5>今日の行動を入力してね</font></div>
+    </ons-toolbar>
+
+    <div style="text-align: center" id="Page1Main">
+        <br>
+        <img src="images/juce.png"><font size=5>今日の行動を選んでね</font>
+        <br>
+        <br>
+        <ons-button id="Param1" modifier="outline" onclick="onParam( 'Param1', 0 )">
+            　運動をたくさんした　
+        </ons-button>        
+        <br>
+        <ons-button id="Param2" modifier="outline" onclick="onParam( 'Param2', 1 )">
+            デスクワーク中心だった
+        </ons-button>
+        <br>
+        <ons-button id="Param3" modifier="outline" onclick="onParam( 'Param3', 2 )">
+            　　お酒を飲んだ　　　
+        </ons-button>
+        <br>
+        <ons-button id="Param4" modifier="outline" onclick="onParam( 'Param4', 3 )">
+            　三食しっかり食べた　
+        </ons-button>
+        <br>
+        <ons-button id="Param5" modifier="outline" onclick="onParam( 'Param5', 4 )">
+            　化粧のノリが良かった 
+        </ons-button>
+        
+        <br>
+        <br>
+        <img src="images/tomato_icon.png"><font size=5>気になる項目を選んでね</font>
+        <br>
+        
+        <center>
+        <div class="button-bar" style="width:320px;">
+          <div class="button-bar__item">
+            <input id="radio1" type="radio" name="segment-a" onchange="onRadioButtonChange()">
+            <button id="type1" class="button-bar__button">美容</button>
+          </div>
+          <div class="button-bar__item">
+            <input id="radio2" type="radio" name="segment-a" onchange="onRadioButtonChange()">
+            <button id="type2" class="button-bar__button">健康</button>
+          </div>
+          <div class="button-bar__item">
+            <input id="radio3" type="radio" name="segment-a" onchange="onRadioButtonChange()">
+            <button id="type3" class="button-bar__button">トマト苦手</button>
+          </div>
+          <div class="button-bar__item">
+            <input id="radio4" type="radio" name="segment-a" onchange="onRadioButtonChange()">
+            <button id="type4" class="button-bar__button">オススメ</button>
+          </div>
+        </div>
+        </center>
+        
+        <br>
+        <br>
+        <ons-button id="kettei"
+            onclick="myNavigator.pushPage('page2.html')">
+        </ons-button>
+    </div>
+
+</ons-page>

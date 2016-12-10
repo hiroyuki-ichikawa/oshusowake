@@ -1,0 +1,87 @@
+//ons-toolbar{
+//    background-color: red !important;
+//    color: red !important;
+//}
+
+#Page1Main {
+    height:100%;
+    background-image: url('../images/bg375-667.png');
+    background-repeat: repeat;
+    background-position: center;
+    color: #ffffff;
+}
+
+#PageRes {
+    height: 100%;
+    width: 100%;
+//    margin: 0;
+    position: absolute;
+    top: 0px;
+//    left: 0px;
+    background-image: url('../images/bg375-667.png');
+    background-repeat: repeat;
+    background-position: center;
+    color: #ffffff;
+}
+
+#kettei{
+    background-image: url('../images/exit_buttan.png');
+    background-color: transparent;
+    width: 150px;
+    height: 50px;
+}
+
+#Param1 {
+    background-color: #ffffff;
+}
+
+#Param2 {
+    background-color: #ffffff;
+}
+
+#Param3 {
+    background-color: #ffffff;
+}
+
+#Param4 {
+    background-color: #ffffff;
+}
+
+#Param5 {
+    background-color: #ffffff;
+}
+
+#type1{
+    background-color: #ffffff;    
+}
+
+#type2{
+    background-color: #ffffff;    
+}
+
+#type3{
+    background-color: #ffffff;    
+}
+
+#type4{
+    background-color: #ffffff;    
+}
+
+#recipititle{
+    font-size : 32px;
+}
+
+.recipitext{
+    font-size : 20px;
+}
+
+#KuruTomato{
+//position: absolute;
+//  top: 0;
+//  bottom: 0;
+//  left: 0;
+//  right: 0;
+  margin: auto;
+  max-width: 100%;
+  max-height: 100%;
+}

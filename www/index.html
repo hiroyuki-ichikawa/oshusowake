@@ -1,0 +1,214 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+    <script src="components/loader.js"></script>
+    <link rel="stylesheet" href="components/loader.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script>
+        ons.bootstrap();
+        console.log("start");
+        
+        // 変数設定
+        var ActionFlg = 0;      // 行動側の優先度
+        var Rflg = -1;                  // 気になる項目フラグ
+        var Dflg = [ 0, 0, 0 ];         // 行動のパラメータ
+        var OnOff = [ 0, 0, 0, 0, 0 ];
+        
+        // レシピ設定
+        var TomatoRecipi = [ [ "高知の柑橘スムージー", "ベリートマト", "トマトのさっぱりスムージー" ],
+                             [ "トマトジンジャー", "土佐美スムージー", "トマトサマースムージー" ],
+                             [ "トマトミルクスムージー", "トマトシェイク", "トマトソイミルク" ],
+                             [ "土佐のレッドブル", "", "" ]
+                             ];
+        // フルレシピの設定
+        var TomatoRecipi2 = [ [ "・春野フルーツトマト　２個,・ゆず　　　　　　　　１個", 
+                                "・ミネラルトマト　２個,・いちご　４個.・りんごジュース　８０ml", 
+                                "・大葉　　２０枚,・オレンジジュース　８０ml,・ミネラルトマト　１個" ],
+                             [ "・春野フルーツトマト　２個,・しょうが　　　１/２かけ,・キウイ　　　　　　　１個", 
+                                "・夜須トマト　　　２個,・ほうれん草　　２０g,・りんごジュース　１００ml,・生姜汁　　　　　少々", 
+                                "・夜須トマト　２個,・スイカ　　　トマトと同量,・パプリカ　　３０g" ],
+                             [ "・シュガートマト　２個,・牛乳　　　　　１００ml,・はちみつ　　　　少々", 
+                                "・ミネラルトマト　２個,・バニラアイス　　１００ml,・氷　　　　　　　５個", 
+                                "・夜須トマト　２個,・豆乳　　　１００ml,・レモン汁　　小さじ１/２,・はちみつ　　小さじ１" ],
+                             [ "・トマトジュース　８０ml,・ビール　　　　　１３５ml", 
+                                "", 
+                                "" ]
+                             ];
+
+
+        // 気になる項目選択
+        function onRadioButtonChange() {
+            console.log( "test" ); 
+            if( document.getElementById('radio1').checked ){
+                document.getElementById('type1').style.color = '#4088ff'; 
+                document.getElementById('type1').style.backgroundColor = '#f0f000'; 
+                if( Rflg != -1 ) RadioBReset();
+                Rflg = 0;
+            }
+            if( document.getElementById('radio2').checked ){
+                document.getElementById('type2').style.color = '#4088ff'; 
+                document.getElementById('type2').style.backgroundColor = '#f0f000'; 
+                if( Rflg != -1 ) RadioBReset();
+                Rflg = 1;
+            }
+            if( document.getElementById('radio3').checked ){
+                document.getElementById('type3').style.color = '#4088ff'; 
+                document.getElementById('type3').style.backgroundColor = '#f0f000'; 
+                if( Rflg != -1 ) RadioBReset();
+                Rflg = 2;
+            }
+            if( document.getElementById('radio4').checked ){
+                document.getElementById('type4').style.color = '#4088ff'; 
+                document.getElementById('type4').style.backgroundColor = '#f0f000'; 
+                if( Rflg != -1 ) RadioBReset();
+                Rflg = 3;
+            }            
+        }
+        
+        function RadioBReset(){
+            var     type;
+            if( Rflg == 0 ) type = 'type1';
+            if( Rflg == 1 ) type = 'type2';
+            if( Rflg == 2 ) type = 'type3';
+            if( Rflg == 3 ) type = 'type4';
+            document.getElementById(type).style.backgroundColor = '#ffffff';             
+        }
+
+
+
+        // カテゴリー
+        function onParam( param, pn ) {
+            console.log( OnOff[ pn ] ); 
+            OnOff[ pn ]++;
+            if( ( OnOff[ pn ] % 2 ) == 0 ){
+                document.getElementById( param ).style.backgroundColor = '#ffffff';
+            }else{
+                document.getElementById( param ).style.backgroundColor = '#f0f000';                
+            }
+        }
+
+        // ページ遷移の処理
+        ons.ready(function(){
+            console.log( "test4" );
+            // 移動側です
+            myNavigator.on('prepush', function(event){
+                console.log( "test3" );
+                if( Rflg == -1 ){
+                    console.log( "test3" );
+                    event.cancel();
+                    ons.notification.alert( { title: "確認！", message: "気になる項目を選んでね。" });
+                }
+            });
+            
+            // 移動後
+            document.addEventListener("pageinit", function(e){
+                console.log( "change" );
+                
+                if( e.target.id == "result-page" ){
+                    // 今日の行動判定
+                    ActionFlg = 0;      // 行動側の優先度
+                    Dflg[ 0 ] = 0;
+                    Dflg[ 1 ] = 0;
+                    Dflg[ 2 ] = 0;
+                    
+                    if( OnOff[ 0 ] % 2 == 1 ){
+                        Dflg[ 0 ] += 2;
+                    }else{
+                        Dflg[ 2 ] += 2;                    
+                    }
+                    
+                    if( OnOff[ 1 ] % 2 == 1 ){                    
+                        Dflg[ 1 ] += 2;
+                        Dflg[ 2 ] += 1;
+                    }else{
+                        Dflg[ 0 ] += 1;                    
+                    }
+                    if( OnOff[ 2 ] % 2 == 1 ){
+                        Dflg[ 0 ] += 1;
+                        Dflg[ 1 ] += 2;
+                        Dflg[ 2 ] += 1;                    
+                    }else{
+                        
+                    }
+                    if( OnOff[ 3 ] % 2 == 1 ){
+                        Dflg[ 2 ] += 1;
+                    }else{
+                        Dflg[ 0 ] += 2;                    
+                    }
+                    if( OnOff[ 4 ] % 2 == 1 ){
+                        
+                    }else{
+                        Dflg[ 0 ] += 1;
+                        Dflg[ 1 ] += 1;
+                        Dflg[ 2 ] += 1;                    
+                    }
+    
+                    console.log( Dflg );
+    
+                    // 優先度判定
+                    if( Dflg[ 0 ] >= Dflg[ 1 ] ){
+                        if( Dflg[ 0 ] >= Dflg[ 2 ] ){
+                            ActionFlg = 0;
+                        }else{
+                            if( Dflg[ 1 ] >= Dflg[ 2 ] ){
+                                ActionFlg = 1;
+                            }else{
+                                ActionFlg = 2;
+                            }
+                        }
+                    }else{
+                        if( Dflg[ 1 ] >= Dflg[ 2 ] ){
+                            ActionFlg = 1;
+                        }else{
+                            if( Dflg[ 0 ] >= Dflg[ 2 ] ){
+                                ActionFlg = 0;
+                            }else{
+                                ActionFlg = 2;
+                            }
+                        }
+                    }
+    
+                    if( Rflg == 3 ) ActionFlg = 0;
+    
+                    document.getElementById("recipititle").textContent = TomatoRecipi[ Rflg ][ ActionFlg ];
+                    console.log( Rflg );
+                    console.log( ActionFlg );
+                    console.log( TomatoRecipi[ Rflg ][ ActionFlg ] );
+                
+                }
+                
+                // レシピページ
+                if( e.target.id == "recipi-page" ){
+                    console.log( "recipiall" );
+                    console.log( Rflg );
+                    console.log( "recipiall" );
+                    var str = TomatoRecipi2[ Rflg ][ ActionFlg ].split(",");
+                    
+                    if( str.length >= 1 )
+                        document.getElementById("recipitext1").textContent = str[ 0 ];
+                    if( str.length >= 2 )
+                        document.getElementById("recipitext2").textContent = str[ 1 ];
+                    if( str.length >= 3 )
+                        document.getElementById("recipitext3").textContent = str[ 2 ];
+                    if( str.length >= 4 )
+                        document.getElementById("recipitext4").textContent = str[ 3 ];
+                    if( str.length >= 5 )
+                        document.getElementById("recipitext5").textContent = str[ 4 ];
+                    
+                }
+            });
+        });
+        
+    </script>
+</head>
+
+<body>
+    <ons-navigator var="myNavigator" page="page1.html">
+    </ons-navigator> 
+    
+</body>
+</html>
